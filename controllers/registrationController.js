@@ -54,6 +54,7 @@ const registrationController = async (req,res)=>{
         });
 
         await newUser.save();
+        req.flash('success_msg','You are now registerd,can Login');
         res.redirect('/users/login');
     }
     

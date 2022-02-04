@@ -1,3 +1,28 @@
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome <%= user.name %></p>
-<a href="/users/logout" class="btn btn-secondary">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark" style="padding: 0.5rem; margin: 0;">
+    <a class="navbar-brand" href="/student/dashboard">Welcome <%=user.name%>!</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/student/dashboard">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/student/askQuestion">Ask Question <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/student/profile">Profile <span class="sr-only">(current)</span></a>
+          </li>
+      </ul>
+      <form class="form-inline" style="display: flex;">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-dark" type="submit">Search</button>
+      </form>
+      <a href="/users/logout" class="btn btn-dark">Logout</a>
+    </div>
+  </nav>
+  <br/>
+  <%- include('./partials/errorMsg')%>

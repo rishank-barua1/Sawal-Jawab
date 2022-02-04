@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-const {ensureAuthenticated} = require('../passport/auth');
+const {ensureTeacherAuthenticated} = require('../passport/auth');
 
-router.get('/dashboard', ensureAuthenticated ,(req,res)=>{
+router.get('/dashboard', ensureTeacherAuthenticated ,(req,res)=>{
     res.render('tdashboard',{
         user:req.user
     });
