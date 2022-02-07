@@ -21,7 +21,7 @@ mongoose.connect(
 )
 .then(()=>console.log("Connected to database")).catch(err=>console.log(err));
 
-app.use(express.static('public'));
+app.use(express.static(__dirname+'/public'));
 app.use(expressLayouts);
 app.set('view engine','ejs');
 

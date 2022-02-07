@@ -1,0 +1,4 @@
+.deleteBox{
+    display: flex;
+    visibility: hidden;
+}

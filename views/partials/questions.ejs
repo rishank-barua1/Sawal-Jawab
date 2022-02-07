@@ -1,5 +1,6 @@
+<link href="/css/questions.css" rel="stylesheet">
+
 <% if(typeof questions!='undefined'){%>
-  <% let questionArray = questions %>
   <%questions.forEach(question =>{%>
         <div class="card">
             <div class="card-body">
@@ -7,22 +8,35 @@
               <h6 class="card-text"><%=question.created%></h6>
               <div class="buttonGroup" style="display: flex;">
                 <a href="/student/questions/<%=question.id%>" class="btn btn-primary">More</a>
-                <a href="/student/questions/delete/<%=question.id%>" class="btn btn-raised btn-danger">Delete</a>
+                <!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+  Delete
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the question? All answers and comments related to it would be deleted as well
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a href="/student/questions/delete/<%=question.id%>" type="button" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
               </div>
             </div>
-          </div>          
+          </div>        
     
 <%})}%>
-<script>
-  const confirmation = (questionId)=>{
-  if(confirm("Do you want to delete the question")==true)
-  {
-    fetch('http://localhost:5000/student/questions/delete/'+questionId,{
-      method:'GET',
-      headers:{
-        'Content-type':'application/json; charset=UTF-8'
-      }
-    });
-  }
-}
-</script>
+
+<script src="/js/questions.js"></script>

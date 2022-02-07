@@ -1,36 +1,17 @@
-const likeButton = (questionId)=>{
-    const button = document.getElementById("like-button");
-    const likeCount = document.getElementById("like-count");
-    
-    if(button.style.color==="black")
-    {
-        const URL = 'https://localhost:5000/student/questions'+questionId+'/likeInc';
-        fetch(URL,{
-            method:"GET",
-            headers:{
-                'Content-type':'application/json; charset=UTF-8'
-            }
-        })
-        .then(response=>response.json())
-        .then((response)=>{
-            console.log(response);
-            button.style.color = "black";
-            likeCount.innerText=response.likes;
-        });
-
-    }else{
-        const URL1 = 'https://localhost:5000/student/questions'+questionId+'/likeDec';
-        fetch(URL1,{
-            method:"GET",
-            headers:{
-                'Content-type':'application/json; charset=UTF-8'
-            }
-        })
-        .then(response=>response.json())
-        .then((response)=>{
-            console.log(response);
-            button.style.color = "black";
-            likeCount.innerText=response.likes;
-        });
-    }
+const deleteButton = document.getElementById('deleteButton');
+const deleteBox = document.getElementById('delete-box');
+const cancel = document.getElementById('cancel');
+deleteButton.onclick = ()=>{
+    deleteBox.innerHTML = `<div id="delete-box" class="deleteBox">
+    <span class="card-text">Are you sure you want to delete the question? All data related to it will be erased</span>
+    <a href="/student/questions/delete/<%=question.id%>" class="btn btn-primary">Confirm Delete</a>
+    <button class="btn btn-success" id="cancel">Cancel</button>
+  </div>    `;
 }
+
+cancel.onclick = ()=>{
+    deleteBox.innerHTML = none;
+}
+
+
+

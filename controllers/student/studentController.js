@@ -29,7 +29,29 @@ const studentController = {
         await Questions.deleteOne({"_id":(req.params.questionId)}).exec();
         req.flash('success_msg','Question deleted');
         res.redirect('/student/profile');
-    }
+    },
+
+    loadQuestionContent:async (req,res)=>{
+        const questionId = req.params.questionId;
+        let answers = [];
+        answers = await Answers.find({"question.id":questionId}).sort({created:'desc'}).exec();
+        let comments = [];
+        comments = await Comments.find({"question.id":questionId}).sort({created:'desc'}).exec();
+        let question = await Questions.findById({_id:questionId}).exec();
+    
+        res.render('./student/oneQuestion',{
+            question:question,
+            answers:answers,
+            comments:comments
+        });
+    },
+
+    // likeHandler: async(req,res)=>{
+    //     const type = req.params.type;
+    //     const id = req.params.id;
+
+    //     if(type)
+    // }
     
 
 }
