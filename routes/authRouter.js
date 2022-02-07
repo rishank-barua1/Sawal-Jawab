@@ -14,7 +14,8 @@ router.post("/register",registrationController);
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
       successRedirect:'/',
-      failureRedirect:'/intro'
+      failureRedirect:'/users/login',
+      failureFlash:true,
     })(req, res, next);
   });
   

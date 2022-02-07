@@ -1,0 +1,16 @@
+<% if(typeof answers!='undefined'){%>
+    <% answers.forEach(answer=>{%>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-text"><%=answer.author.name%></h5>
+              <p class="card-text"><%=answer.text%></p>
+              <h6 class="card-text"><%=answer.created%></h6>
+              <div class="like-dislike">
+                <button id="like-button" style="color:black;" onclick='likeButton("<%=answer.id%>")'>
+                  <i class="fas fa-thumbs-up"></i>Like <span id="like-count"><%=answer.likes%></span>
+                </button>
+              </div>
+            </div>
+          </div>          
+    
+<%})}%>

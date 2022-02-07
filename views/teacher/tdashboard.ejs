@@ -1,0 +1,6 @@
+<%- include('tnavbar',{user:user}) %>
+<%- include('./../partials/errorMsg')%>
+<h3 class="card-text">Most Popular Questions</h3>
+<%- include('./../partials/tquestions',{
+    questions:questions
+})%>

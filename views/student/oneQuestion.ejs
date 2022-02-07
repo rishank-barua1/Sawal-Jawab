@@ -1,0 +1,67 @@
+<div class="card">
+    <div class="card-body">
+      <p class="card-text"><%=question.text%></p>
+      <p class="card-text"><span style="font-weight: bold;">Author: </span><%=question.author.name%></p>
+      <p class="card-text"><span style="font-weight: bold;">Submission Time: </span><%=question.created%></p>
+      <div class="like-dislike">
+        <button class="btn btn-primary" id="like-button" data-questionid="<%=question.id%>" style="color:black;" onclick="likeButton('<%=question.id%>')">
+          <i class="fas fa-thumbs-up"></i>Like <span id="like-count"><%=question.likes%></span>
+        </button>
+      </div>
+    </div>
+</div> 
+<br/>
+<div class="container">
+    <div class="row">
+      <div class="col-9">
+        <h5 class="card-text">Answers</h5>
+        <%- include('./../partials/answers')%>
+      </div>
+      <div class="col-3">
+          <h6 class="card-text">Comments</h6>
+          <%- include('./../partials/comments')%>
+      </div>
+    </div>
+  </div>
+  
+<script>
+    const likeButton = (questionId)=>{
+        const button = document.getElementById('like-button');
+        var action = button.textContent.trim();
+        if(action=="Like")
+        {
+            document.querySelector('#like-count').textContent++;
+            button.textContent = "Liked";
+            button.style.backgroundColor="green";
+            const URL = 'http://localhost:5000/student/questions/'+questionId+'/likeInc';
+            fetch(URL,{
+                method:"GET",
+                headers:{
+                    'Content-type':'application/json; charset=UTF-8'
+                }
+            })
+            .then(response=>response.json())
+            .then((response)=>{
+                console.log(response);
+            });
+        }
+        else{
+            document.querySelector('#like-count').textContent--;
+            button.textContent = "Like";
+            button.style.backgroundColor="blue";
+            const URL1 = 'http://localhost:5000/student/questions/'+questionId+'/likeDec';
+            fetch(URL1,{
+                method:"GET",
+                headers:{
+                    'Content-type':'application/json; charset=UTF-8'
+                }
+            })
+            .then(response=>response.json())
+            .then((response)=>{
+                console.log(response);
+            });
+            }
+
+    }
+</script>
+
