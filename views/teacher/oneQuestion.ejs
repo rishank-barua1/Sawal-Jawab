@@ -1,0 +1,68 @@
+<%-include('./tnavbar')%>
+<%-include('./../partials/errorMsg')%>
+<% if(question!=null) {%>
+<div class="card">
+    <div class="card-body">
+      <p class="card-text"><%=question.text%></p>
+      <p class="card-text"><span style="font-weight: bold;">Author: </span><%=question.author.name%></p>
+      <p class="card-text"><span style="font-weight: bold;">Submission Time: </span><%=question.created%></p>
+      <div class="like-dislike">
+        <button class="btn" id="like-button" data-questionid="<%=question.id%>">
+          <i class="fas fa-thumbs-up"></i> <span id="like-count"><%=question.likes%></span>
+        </button>
+      </div>
+      <a href="/teacher/questions/answer/<%=question.id%>" class="btn btn-warning">Answer or Edit</a>
+      
+    </div>
+</div> 
+<br/>
+<div class="container">
+    <div class="row">
+      <div class="col-9">
+        <h5 class="card-text">Answers</h5>
+        <%- include('./../partials/answers')%>
+      </div>
+      <div class="col-3">
+          <h6 class="card-text">Comments</h6>
+          <form method="post" action="/teacher/questions/comment/<%=question.id%>">
+            <div class="form-group">
+              <input
+              class="form-control" 
+              id="comment" 
+              name="comment"
+              required="required"
+              type="text"
+              placeholder="Type your comment"
+              value="<%= typeof comment!='undefined'?comment:''%>"
+              ></input>
+            </div>
+            <button class="btn btn-primary" type="submit">Post</button>
+        </form>
+        
+        <% if(typeof comments!='undefined'){%>
+              <%comments.forEach(comment=>{%>
+                <div class="comment">
+                  <div class="content">
+                    <span><%=comment.author.name%></span>
+                    <p><%=comment.text%></p>
+                  </div>
+                    
+                  <div class="button">
+                    <%if(comment.author.id==user.id){%>
+                      <a href="/teacher/comment/delete/<%=comment.question.id%>/<%=comment._id%>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                      <%}%>
+                  </div>
+                    
+                </div>
+        
+        <%})}%>
+      </div>
+    </div>
+  </div>
+<%} else{%>
+
+    <p>Oops! The user might have deleted the question, please go to Home page!</p>
+    <%}%>
+
+
+

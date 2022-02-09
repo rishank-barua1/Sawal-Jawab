@@ -1,6 +1,5 @@
-<%- include('snavbar',{user:user})%>
+<%- include('snavbar')%>
 <%- include('./../partials/errorMsg')%>
-<link href="/css/profile.css" rel="stylesheet" type="text/css">
 <div class="panel">
     <div class="panel-body bio-graph-info">
         <h1>Profile</h1>
@@ -13,7 +12,22 @@
             </div>
         </div>
     </div>
+
+<div class="filter">
+    <h4 class="card-text">Your Questions</h4>
+    <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Filter
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="/student/profile">All</a>
+          <a class="dropdown-item" href="/student/profile/filter/true">Answered</a>
+          <a class="dropdown-item" href="/student/profile/filter/false">Unanswered</a>
+        </div>
+      </div>
+      
 </div>
 <%- include('./../partials/questions',{
     questions:questions
 })%>
+</div>

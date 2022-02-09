@@ -1,0 +1,32 @@
+<form method="post" action="/student/questions/comment/<%=question.id%>">
+    <div class="form-group">
+      <input
+      class="form-control" 
+      id="comment" 
+      name="comment"
+      required="required"
+      type="text"
+      placeholder="Type your comment"
+      value="<%= typeof comment!='undefined'?comment:''%>"
+      ></input>
+    </div>
+    <button class="btn btn-primary" type="submit">Post</button>
+</form>
+
+<% if(typeof comments!='undefined'){%>
+      <%comments.forEach(comment=>{%>
+        <div class="comment">
+          <div class="content">
+            <span><%=comment.author.name%></span>
+            <p><%=comment.text%></p>
+          </div>
+            
+          <div class="button">
+            <%if(comment.author.id==user.id){%>
+              <a href="/student/comment/delete/<%=comment.question.id%>/<%=comment._id%>" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+              <%}%>
+          </div>
+            
+        </div>
+
+<%})}%>

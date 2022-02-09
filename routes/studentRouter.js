@@ -37,6 +37,14 @@ router.post('/addQuestion',studentController.addQuestion);
 router.get('/questions/delete/:questionId',studentController.deleteQuestion);
 
 
+//filter
+router.get('/profile/filter/:bool',studentController.filter);
+
+//add comment
+router.post('/questions/comment/:questionId',studentController.addComment);
+
+//delete comment
+router.get('/comment/delete/:questionId/:id',studentController.deleteComment);
 
 // router.get('/:answerId/:like',async (req,res)=>{
 //     const type = req.params.like;

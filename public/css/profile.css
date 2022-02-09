@@ -9,3 +9,9 @@
     width: 100px;
     display: inline-block;
 }
+
+.filter{
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5rem;
+}

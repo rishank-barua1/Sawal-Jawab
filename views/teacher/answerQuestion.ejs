@@ -1,0 +1,22 @@
+<%- include('./tnavbar')%>
+<form method="post" action="/teacher/addAnswer/<%=question.id%>">
+    <div>
+        <label for="question">Question</label>
+        <p class="card-text" style="font-weight: 700;"><%=question.text%></p>
+    </div>
+    <br/>
+    <div class="form-group">
+      <label for="question">Your Answer</label>
+      <textarea
+      class="form-control" 
+      id="answer" 
+      name="answer"
+      rows="6"
+      required="required"
+      type="text"
+      value="<%= typeof answer!='undefined'?answer:''%>"
+      ></textarea>
+    </div>
+    <br/>
+    <button class="btn btn-primary" type="submit">Submit Answer</button>
+  </form>
