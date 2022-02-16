@@ -5,11 +5,7 @@ const Answers = require('../models/Answers');
 const Comments = require('../models/Comments');
 const {ensureStudentAuthenticated} = require('../passport/auth');
 
-router.get('/dashboard', ensureStudentAuthenticated ,(req,res)=>{
-    res.render('./student/sdashboard',{
-        user:req.user
-    });
-});
+router.get('/dashboard', ensureStudentAuthenticated ,studentController.loadDashboard);
 
 router.get('/askQuestion',ensureStudentAuthenticated,(req,res)=>{
     res.render('./student/addQuestion',{
@@ -17,15 +13,7 @@ router.get('/askQuestion',ensureStudentAuthenticated,(req,res)=>{
     });
 })
 
-router.get('/profile',ensureStudentAuthenticated,async (req,res)=>{
-    const authorId = req.user.id;
-    let questions = [];
-    questions = await Questions.find({"author.id":authorId}).sort({created:'desc'}).exec();
-    res.render('./student/studentProfile',{
-        user:req.user,
-        questions:questions
-    })
-});
+router.get('/profile',ensureStudentAuthenticated,studentController.loadProfile);
 
 //load a question page with its answers and comments
 router.get('/questions/:questionId',ensureStudentAuthenticated, studentController.loadQuestionContent);
@@ -45,6 +33,18 @@ router.post('/questions/comment/:questionId',studentController.addComment);
 
 //delete comment
 router.get('/comment/delete/:questionId/:id',studentController.deleteComment);
+
+//add rating
+router.post('/questions/rate/:id',studentController.addRating);
+
+//update profile page
+router.get('/profile/edit',studentController.loadEditPage);
+
+//update profile
+router.post('/profile/update',studentController.updateProfile);
+
+//view profile
+router.get('/view/:id',studentController.viewProfile);
 
 // router.get('/:answerId/:like',async (req,res)=>{
 //     const type = req.params.like;

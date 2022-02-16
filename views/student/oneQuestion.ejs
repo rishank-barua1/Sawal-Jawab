@@ -2,19 +2,19 @@
 <div class="card">
     <div class="card-body">
       <% var date = question.created%>
-      <% date = date.toString()%>
+      <% date = date.toLocaleString()%>
       <p class="card-text"><%=question.text%></p>
       <p class="card-text"><span style="font-weight: bold;">Author: </span><%=question.author.name%></p>
       <p class="card-text"><span style="font-weight: bold;">Submission Time: </span><%=date%></p>
-      <div class="like-dislike">
-        <button class="btn" id="like-button" data-questionid="<%=question.id%>">
-          <i class="far fa-thumbs-up"></i> <span id="like-count"><%=question.likes%></span>
-        </button>
-      </div>
+      <form method="POST" action="/student/questions/rate/<%=question.id%>">
+        <label for="Rating">Rate the question(out of 10):</label>
+        <input id="rating" name="rating" required="required" type="number" value="<%= typeof rating!='undefined'?rating:''%>"/>
+        <button type="submit" class="btn btn-danger btn-sm">Rate</button>
+      </form>
     </div>
 </div> 
 <br/>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
       <div class="col-7">
         <h5 class="card-text">Answers</h5>
@@ -26,6 +26,5 @@
       </div>
     </div>
   </div>
-  
-<script src="js/likeButton.js"></script>
+
 

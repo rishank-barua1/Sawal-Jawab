@@ -1,16 +1,25 @@
 <%- include('snavbar')%>
 <%- include('./../partials/errorMsg')%>
 <div class="panel">
-    <div class="panel-body bio-graph-info">
-        <h1>Profile</h1>
+    <div class="panel-body">
+        <h4>Profile</h4>
         <div class="row">
             <div class="bio-row">
-                <p>Name: <%=user.name%></p>
+                    
+                <p><span style="font-weight: bold;color: black;">Name: </span><%=user.name%></p>
             </div>
             <div class="bio-row">
-                <p>Email: <%=user.email%></p>
+                <p><span style="font-weight: bold; color: black;">Email: </span><%=user.email%></p>
             </div>
+            <div class="bio-row">
+                <span style="font-weight: bold; color: black;">School/University: </span><%=student.school%>
+            </div>
+            <div class="bio-row">
+                <p><span style="font-weight: bold; color: black;">Age: </span><%=student.age%></p>
+            </div>
+  
         </div>
+        <a class="btn btn-danger btn-raised" href="/student/profile/edit" >Edit/Update Profile</a>
     </div>
 
 <div class="filter">
@@ -30,4 +39,4 @@
 <%- include('./../partials/questions',{
     questions:questions
 })%>
-</div>
+

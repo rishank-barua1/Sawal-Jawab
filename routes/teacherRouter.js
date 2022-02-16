@@ -22,4 +22,16 @@ router.post('/questions/comment/:id',teacherController.addComment);
 //delete comment
 router.get('/comment/delete/:questionId/:id',teacherController.deleteComment);
 
+//delete answer
+router.get('/answers/delete/:questionId/:id',teacherController.deleteAnswer);
+
+//load profile
+router.get('/profile',ensureTeacherAuthenticated,teacherController.loadProfile);
+
+//load update page
+router.get('/profile/edit',ensureTeacherAuthenticated,teacherController.loadEditPage);
+
+//update profile
+router.post('/profile/update',ensureTeacherAuthenticated,teacherController.updateProfile);
+
 module.exports = router;

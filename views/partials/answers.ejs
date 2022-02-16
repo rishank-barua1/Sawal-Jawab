@@ -1,10 +1,43 @@
 <% if(typeof answers!='undefined'){%>
     <% answers.forEach(answer=>{%>
-        <div class="card">
+        <div class="card" style="background-color: rgb(220, 224, 228);">
             <div class="card-body">
+              <div class="answer-header" style="display: flex; justify-content: space-between;">
                 <h5 class="card-text"><%=answer.author.name%></h5>
+                <%if(user.role=='student'){%>
+                  <a class="btn btn-primary" href="/student/view/<%=answer.author.id%>">View Profile</a>
+                <%}%>
+                <%if(user.id==answer.author.id){%>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    Delete Answer
+                  </button>
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure you want to delete the answer?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          <a href="/teacher/answers/delete/<%=question.id%>/<%=answer.id%>" type="button" class="btn btn-danger">Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                <%}%>
+              </div>
+                
               <p class="card-text"><%=answer.text%></p>
-              <h6 class="card-text"><%=answer.created%></h6>
+              <h6 class="card-text"><%=answer.created.toLocaleString()%></h6>
               <div class="like-dislike">
                 <button id="like-button" style="color:black;" onclick='likeButton("<%=answer.id%>")'>
                   <i class="fas fa-thumbs-up"></i>Like <span id="like-count"><%=answer.likes%></span>

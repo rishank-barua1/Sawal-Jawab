@@ -1,11 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark" style="padding: 0.5rem; margin: 0;">
-    <a class="navbar-brand" href="/teacher/dashboard">Welcome!</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a class="navbar-brand" href="/student/dashboard" style="margin-left: 1rem;">Welcome!</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="display: flex; justify-content: end; font-weight: bold; padding: 0.25rem;">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="/teacher/dashboard">Home <span class="sr-only">(current)</span></a>
@@ -16,9 +16,9 @@
       </ul>
       <form class="form-inline" style="display: flex;">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-dark" type="submit">Search</button>
+        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
       </form>
-      <a href="/users/logout" class="btn btn-dark">Logout</a>
+      <a href="/users/logout" class="btn btn-danger">Logout</a>
     </div>
   </nav>
   <br/>

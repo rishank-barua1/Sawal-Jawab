@@ -3,6 +3,8 @@ const Questions = require('./../../models/Questions');
 const Comments = require('./../../models/Comments');
 const Answers = require('./../../models/Answers');
 const mongoose = require('mongoose');
+const Teacher = require('./../../models/Teacher');
+const Student = require('./../../models/Student');
 
 const teacherController = {
     loadDashboard: async (req,res)=>{
@@ -14,6 +16,33 @@ const teacherController = {
             user:req.user,
             questions:questions,
         })
+    },
+
+    loadProfile: (req,res)=>{
+        //answers find out kre sbse pehle, phir uske baad unn answers mei questions ki id ki questions array 
+        //mei store kri, phir Questions table mei se vo questions uthaye, jinki id iss array mei present thi
+        var questions=[];
+        Answers.find({"author.id":req.user.id})
+        .then(answers=>{
+            answers.forEach(answer=>{
+                questions.push(answer.question.id);
+            })
+            Questions.find({"_id":{$in : questions}})
+            .then(result=>{
+                Teacher.findOne({"teacher.id":req.user.id})
+                .then(teacher=>{
+                    res.render('./teacher/teacherProfile',{
+                        user:req.user,
+                        questions:result,
+                        teacher:teacher
+                    })
+                })
+                .catch(err=>console.log(err));
+                
+            })
+            .catch(err=>console.log(err));
+        })
+        .catch(err=>console.log(err));
     },
 
     loadQuestionPage: async (req,res)=>{
@@ -46,7 +75,11 @@ const teacherController = {
         const text = req.body.answer;
         const questionId = req.params.questionId;
         await Questions.findByIdAndUpdate(questionId,{isAnswered:true}).exec();
-        let answer=await Answers.findOne({"author.id":teacherId},{"question.id":questionId}).exec();
+        let answer=await Answers.findOne({
+            $and:
+            [{"author.id":teacherId},{"question.id":questionId}]
+        }
+            ).exec();
 
         if(answer)
         {
@@ -98,6 +131,54 @@ const teacherController = {
         const questionId = req.params.questionId;
         await Comments.deleteOne({_id:id}).exec();
         res.redirect('/teacher/questions/'+questionId);
+    },
+
+    deleteAnswer: async(req,res)=>{
+        const id = req.params.id;
+        const questionId = req.params.questionId;
+        await Answers.deleteOne({"_id":id});
+        var answer = await Answers.find({"_id":id},{"question.id":questionId});
+        if(answer=='undefined')
+        {
+            await Questions.findByIdAndUpdate(questionId,{isAnswered:false});
+        }
+        req.flash('success_msg',"Answer deleted successfully");
+        res.redirect('/teacher/questions/'+req.params.questionId);
+
+    },
+
+    loadEditPage:async (req,res)=>{
+        let teacher = await Teacher.find({"teacher.id":req.user.id}).exec();
+        res.render('./teacher/updateProfile',{
+            user:req.user,
+            teacher:teacher
+        });
+    },
+
+    updateProfile:async(req,res)=>{
+        let interests=[];
+        interests.push(req.body.interest1);
+        interests.push(req.body.interest2);
+        if(typeof req.body.interest3 !=="")
+            interests.push(req.body.interest3);
+        if(typeof req.body.interest4 !=="")
+            interests.push(req.body.interest4);
+        if(typeof req.body.interest5 !=="")
+            interests.push(req.body.interest5);
+        
+        const id = req.user._id;
+
+        await Teacher.findByIdAndUpdate(id,{$set:{
+                "teacher.id":id,
+                "teacher.name":req.body.name,
+                "education":req.body.education,
+                "interest":interests
+            }},{upsert:true}).exec();
+    
+            req.flash('success_msg',"Profile updated!");
+            res.redirect('/teacher/profile');
+        
+
     }
 
 }

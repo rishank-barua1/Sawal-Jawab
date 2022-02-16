@@ -1,0 +1,47 @@
+<%- include('tnavbar')%>
+<%- include('./../partials/errorMsg')%>
+    <div class="panel-body bio-graph-info">
+        <h1>Profile</h1>
+        <div class="row">
+            <div class="bio">
+                <p><span style="font-weight: bold; color: gray;">Name: </span><%=user.name%></p>
+            </div>
+            <div class="bio">
+              <p><span style="font-weight: bold; color: gray;">Email: </span><%=user.email%></p>
+            </div>
+            <div class="bio">
+              <p><span style="font-weight: bold; color: gray;">Bio: </span><%=teacher.education%></p>
+            </div>
+            <div class="bio">
+              <p><span style="font-weight: bold; color: gray;">Interests: </span><%if(typeof teacher.interest !='undefined'){%>
+                <% teacher.interest.forEach(int=>{%>
+                  <span><%=int%>&nbsp</span>
+                <%})}%></p>
+            </div>
+        </div>
+        <a class="btn btn-danger btn-raised" href="/teacher/profile/edit" >Edit/Update Profile</a>
+    </div>
+<br/>
+<h4 class="card-text">Questions you have answered</h4>
+
+<% if(questions.length===0){%>
+    <br/>
+    <br/>
+    <p style="text-align: center; color: gray; font-weight: bolder; font-size: 1.5rem;">No questions to display</p>
+  <%}%>
+<% if(typeof questions!='undefined'){%>
+    <% questions.forEach(question=>{%>
+        <div class="card">
+            <div class="card-body">
+              <p class="card-text"><%=question.text%></p>
+              <h6 class="card-text"><%=question.created.toLocaleString()%></h6>
+              <p class="card-text" style="font-style: italic;"></p>
+              <div class="buttonGroup" style="display: flex;">
+                <a href="/teacher/questions/<%=question.id%>" class="btn btn-primary">View More</a>
+                
+              </div>
+              
+            </div>
+          </div>          
+    
+<%})}%>

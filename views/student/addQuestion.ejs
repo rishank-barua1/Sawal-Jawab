@@ -3,7 +3,7 @@
     <h3 class="text-center mb-3">Submit your Question</h3>
     <div class="form-group">
       <label for="question">Question</label>
-      <input
+      <textarea
       class="form-control" 
       id="question" 
       name="question"
@@ -11,7 +11,8 @@
       required="required"
       type="text"
       value="<%= typeof question!='undefined'?question:''%>"
-      ></input>
+      ></textarea>
     </div>
+    <br/>
     <button class="btn btn-primary" type="submit">Submit Question</button>
   </form>

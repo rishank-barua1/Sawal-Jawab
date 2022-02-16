@@ -3,9 +3,29 @@ const Questions = require('./../../models/Questions');
 const Comments = require('./../../models/Comments');
 const Answers = require('./../../models/Answers');
 const mongoose = require('mongoose');
-const req = require('express/lib/request');
+const Teacher = require('./../../models/Teacher');
+const Student = require('./../../models/Student');
 
 const studentController = {
+    loadProfile:async (req,res)=>{
+        const authorId = req.user.id;
+        let student = await Student.findOne({"student.id":authorId}).exec();
+        let questions = [];
+        questions = await Questions.find({"author.id":authorId}).sort({created:'desc'}).exec();
+        res.render('./student/studentProfile',{
+            user:req.user,
+            questions:questions,
+            student:student
+        })
+    },
+    loadDashboard:async (req,res)=>{
+        
+        let questions = await Questions.find({}).exec();
+        res.render('./student/sdashboard',{
+            user:req.user,
+            questions:questions
+        });
+    },
     addQuestion: async (req,res)=>{
         const question = req.body.question;
         const authorId = (req.user.id);
@@ -40,7 +60,8 @@ const studentController = {
         let comments = [];
         comments = await Comments.find({"question.id":questionId}).sort({created:'desc'}).exec();
         let question = await Questions.findById({_id:questionId}).exec();
-    
+
+        
         res.render('./student/oneQuestion',{
             user:req.user,
             question:question,
@@ -94,15 +115,62 @@ const studentController = {
         const questionId = req.params.questionId;
         await Comments.deleteOne({_id:id}).exec();
         res.redirect('/student/questions/'+questionId);
+    },
+
+    addRating: async (req,res)=>{
+        const id = req.params.id;
+        let question = await Questions.findById(id).exec();
+
+
+        question.ratings.push(req.body.rating);
+        await question.save();
+        res.redirect('/student/questions/'+id);
+    },
+
+    loadEditPage:async(req,res)=>{
+        let student = await Student.find({"student.id":req.user.id});
+        res.render('./student/updateProfile',{
+            user:req.user,
+            student:student
+        })
+    },
+    updateProfile:async (req,res)=>{
+        const id = req.user._id;
+
+        await Student.findByIdAndUpdate(id,{$set:{
+            "student.id":id,
+            "student.name":req.body.name,
+            "age":req.body.age,
+            "school":req.body.school
+        }},{upsert:true}).exec();
+
+        req.flash('success_msg',"Profile updated!");
+        res.redirect('/student/profile');
+    },
+
+    viewProfile:async (req,res)=>{
+        var questions=[];
+        Answers.find({"author.id":req.params.id})
+        .then(answers=>{
+            answers.forEach(answer=>{
+                questions.push(answer.question.id);
+            })
+            Questions.find({"_id":{$in : questions}})
+            .then(result=>{
+                Teacher.findOne({"teacher.id":req.params.id})
+                .then(teacher=>{
+                    res.render('./student/viewProfile',{
+                        questions:result,
+                        teacher:teacher
+                    })
+                })
+                .catch(err=>console.log(err));
+                
+            })
+            .catch(err=>console.log(err));
+        })
+        .catch(err=>console.log(err));
     }
-
-    // likeHandler: async(req,res)=>{
-    //     const type = req.params.type;
-    //     const id = req.params.id;
-
-    //     if(type)
-    // }
-    
 
 }
 
