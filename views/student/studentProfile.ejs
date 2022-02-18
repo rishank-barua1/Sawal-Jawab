@@ -11,12 +11,21 @@
             <div class="bio-row">
                 <p><span style="font-weight: bold; color: black;">Email: </span><%=user.email%></p>
             </div>
+            <%if(student!=null){%>
             <div class="bio-row">
                 <span style="font-weight: bold; color: black;">School/University: </span><%=student.school%>
             </div>
             <div class="bio-row">
                 <p><span style="font-weight: bold; color: black;">Age: </span><%=student.age%></p>
             </div>
+            <%}else{%>
+                <div class="bio-row">
+                    <span style="font-weight: bold; color: black;">School/University: </span>Not added
+                </div>
+                <div class="bio-row">
+                    <p><span style="font-weight: bold; color: black;">Age: </span>Not added</p>
+                </div>
+                <%}%>
   
         </div>
         <a class="btn btn-danger btn-raised" href="/student/profile/edit" >Edit/Update Profile</a>

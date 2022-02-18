@@ -11,6 +11,7 @@ const studentController = {
         const authorId = req.user.id;
         let student = await Student.findOne({"student.id":authorId}).exec();
         let questions = [];
+        console.log(student);
         questions = await Questions.find({"author.id":authorId}).sort({created:'desc'}).exec();
         res.render('./student/studentProfile',{
             user:req.user,
@@ -83,10 +84,11 @@ const studentController = {
                 }
             ).sort({created:'desc'}).exec();
 
-
+        var student = await Student.findOne({"student.id":req.user.id}).exec();
         res.render('./student/studentProfile',{
             user:req.user,
-            questions:questions
+            questions:questions,
+            student:student
         })
     },
 
@@ -234,7 +236,7 @@ const studentController = {
         if(likes.includes(req.user.id))
         {
             var newLikes = likes.filter(id=> id!=req.user.id);
-            await Questions.updateOne({"id":id},{
+            await Questions.updateOne({"_id":id},{
                 likedby:newLikes
             });
         }
@@ -247,10 +249,11 @@ const studentController = {
                 newDislikes = newDislikes.filter(id=> id!=req.user.id);
             }
             likes.push(req.user.id);
-            await Questions.updateOne({"id":id},{
+            await Questions.updateOne({"_id":id},{
                 likedby:likes,
                 dislikedby:newDislikes
             })
+            console.log('Liked');
         }
     },
 
@@ -265,7 +268,7 @@ const studentController = {
         if(dislikes.includes(req.user.id))
         {
             var newDislikes = dislikes.filter(id=> id!=req.user.id);
-            await Questions.updateOne({"id":id},{
+            await Questions.updateOne({"_id":id},{
                 dislikedby:newDislikes
             });
         }
@@ -279,10 +282,11 @@ const studentController = {
             }
 
             dislikes.push(req.user.id);
-            await Questions.updateOne({"id":id},{
+            await Questions.updateOne({"_id":id},{
                 dislikedby:dislikes,
                 likedby:newLikes
             })
+            console.log('Disliked');
         }
     }
 

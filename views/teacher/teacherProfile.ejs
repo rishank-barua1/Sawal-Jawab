@@ -9,15 +9,24 @@
             <div class="bio">
               <p><span style="font-weight: bold; color: gray;">Email: </span><%=user.email%></p>
             </div>
+            <%if(teacher!=null){%>
             <div class="bio">
               <p><span style="font-weight: bold; color: gray;">Bio: </span><%=teacher.education%></p>
             </div>
             <div class="bio">
-              <p><span style="font-weight: bold; color: gray;">Interests: </span><%if(typeof teacher.interest !='undefined'){%>
+              <p><span style="font-weight: bold; color: gray;">Interests: </span><%if(typeof teacher.interest !=null){%>
                 <% teacher.interest.forEach(int=>{%>
                   <span><%=int%>&nbsp</span>
                 <%})}%></p>
             </div>
+            <%}else{%>
+              <div class="bio">
+                <p><span style="font-weight: bold; color: gray;">Bio: </span>Not added</p>
+              </div>
+              <div class="bio">
+                <p><span style="font-weight: bold; color: gray;">Interests: </span>Not added
+              </div>
+            <%}%>
         </div>
         <a class="btn btn-danger btn-raised" href="/teacher/profile/edit" >Edit/Update Profile</a>
     </div>
