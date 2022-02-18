@@ -116,17 +116,6 @@ const studentController = {
         await Comments.deleteOne({_id:id}).exec();
         res.redirect('/student/questions/'+questionId);
     },
-
-    addRating: async (req,res)=>{
-        const id = req.params.id;
-        let question = await Questions.findById(id).exec();
-
-
-        question.ratings.push(req.body.rating);
-        await question.save();
-        res.redirect('/student/questions/'+id);
-    },
-
     loadEditPage:async(req,res)=>{
         let student = await Student.find({"student.id":req.user.id});
         res.render('./student/updateProfile',{
@@ -170,8 +159,138 @@ const studentController = {
             .catch(err=>console.log(err));
         })
         .catch(err=>console.log(err));
+    },
+
+    likeHandler:async (req,res)=>{
+        const id = req.params.id;
+
+        var answer = await Answers.findById(id);
+
+        var likes = answer.likedby;
+        //user removing its like
+        if(likes.includes(req.user.id))
+        {
+            var newLikes = likes.filter(id=> id!=req.user.id);
+            await Answers.updateOne({"id":id},{
+                likedby:newLikes
+            });
+        }
+        else{
+            //if user is liking and theres is already a dislike, then we need to remove its dislikes
+
+            var newDislikes = answer.dislikedby;
+            if(newDislikes.includes(req.user.id))
+            {
+                newDislikes = newDislikes.filter(id=> id!=req.user.id);
+            }
+            likes.push(req.user.id);
+            await Answers.updateOne({"id":id},{
+                likedby:likes,
+                dislikedby:newDislikes
+            })
+        }
+    },
+
+    dislikeHandler: async (req,res)=>{
+        const id = req.params.id;
+
+        var answer = await Answers.findById(id);
+
+        var dislikes = answer.dislikedby;
+
+        //if user has already disliked this question, it means now it is removing its dislike
+        if(dislikes.includes(req.user.id))
+        {
+            var newDislikes = dislikes.filter(id=> id!=req.user.id);
+            await Answers.updateOne({"id":id},{
+                dislikedby:newDislikes
+            });
+        }
+        else{
+            var newLikes = answer.likedby;
+            
+            //if user disliking, but like already exists
+            if(newLikes.includes(req.user.id))
+            {
+                newLikes = newLikes.filter(id=>id!=req.user.id);
+            }
+
+            dislikes.push(req.user.id);
+            await Answers.updateOne({"id":id},{
+                dislikedby:dislikes,
+                likedby:newLikes
+            })
+        }
+    },
+
+
+    likeQuestionHandler:async (req,res)=>{
+        const id = req.params.id;
+
+        var answer = await Questions.findById(id);
+
+        var likes = answer.likedby;
+        //user removing its like
+        if(likes.includes(req.user.id))
+        {
+            var newLikes = likes.filter(id=> id!=req.user.id);
+            await Questions.updateOne({"id":id},{
+                likedby:newLikes
+            });
+        }
+        else{
+            //if user is liking and theres is already a dislike, then we need to remove its dislikes
+
+            var newDislikes = answer.dislikedby;
+            if(newDislikes.includes(req.user.id))
+            {
+                newDislikes = newDislikes.filter(id=> id!=req.user.id);
+            }
+            likes.push(req.user.id);
+            await Questions.updateOne({"id":id},{
+                likedby:likes,
+                dislikedby:newDislikes
+            })
+        }
+    },
+
+    dislikeQuestionHandler: async (req,res)=>{
+        const id = req.params.id;
+
+        var answer = await Questions.findById(id);
+
+        var dislikes = answer.dislikedby;
+
+        //if user has already disliked this question, it means now it is removing its dislike
+        if(dislikes.includes(req.user.id))
+        {
+            var newDislikes = dislikes.filter(id=> id!=req.user.id);
+            await Questions.updateOne({"id":id},{
+                dislikedby:newDislikes
+            });
+        }
+        else{
+            var newLikes = answer.likedby;
+            
+            //if user disliking, but like already exists
+            if(newLikes.includes(req.user.id))
+            {
+                newLikes = newLikes.filter(id=>id!=req.user.id);
+            }
+
+            dislikes.push(req.user.id);
+            await Questions.updateOne({"id":id},{
+                dislikedby:dislikes,
+                likedby:newLikes
+            })
+        }
     }
+
 
 }
 
 module.exports = studentController;
+
+
+//likes, likedby, dislikes, disliked by
+//rendering page -> if 

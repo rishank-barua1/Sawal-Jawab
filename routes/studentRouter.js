@@ -34,8 +34,11 @@ router.post('/questions/comment/:questionId',studentController.addComment);
 //delete comment
 router.get('/comment/delete/:questionId/:id',studentController.deleteComment);
 
-//add rating
-router.post('/questions/rate/:id',studentController.addRating);
+//like answer
+router.post('/answer/like/:id',studentController.likeHandler);
+
+//dislike answer
+router.post('/answer/dislike/:id',studentController.dislikeHandler);
 
 //update profile page
 router.get('/profile/edit',studentController.loadEditPage);
@@ -46,77 +49,13 @@ router.post('/profile/update',studentController.updateProfile);
 //view profile
 router.get('/view/:id',studentController.viewProfile);
 
-// router.get('/:answerId/:like',async (req,res)=>{
-//     const type = req.params.like;
-//     const filter = {id:req.params.answerId};
-//     if(type=="likeInc")
-//     {
-//         const updateDoc = {
-//             $inc:{
-//                 'likes':1
-//             },
-//         }
-//         const answer = await Answers.updateOne(filter,updateDoc);
-//         res.send({likes:answer.likes});
-//     }
-//     else{
-//         const updateDoc = {
-//             $inc:{
-//                 'likes':-1
-//             },
-//         }
-//         const answer = await Answers.updateOne(filter,updateDoc);
-//         res.send({likes:answer.likes});
-//     }
-// });
+//question dislike
+router.post('/question/dislike/:id',studentController.dislikeQuestionHandler);
 
-router.get('/questions/:questionId/:like',async (req,res)=>{
-    const type = req.params.like;
-    const filter = {id:req.params.questionId};
-    if(type==="likeInc")
-    {
-        const updateDoc = {
-            $inc:{
-                'likes':1
-            },
-        }
-        const question = await Questions.updateOne(filter,updateDoc);
-        res.send({likes:question.likes});
-    }
-    else{
-        const updateDoc = {
-            $inc:{
-                'likes':-1
-            },
-        }
-        const question = await Questions.updateOne(filter,updateDoc);
-        res.send({likes:question.likes});
-    }
-});
+//like question
+router.post('/question/like/:id',studentController.likeQuestionHandler);
 
-// router.get('/:commentId/:like',async (req,res)=>{
-//     const type = req.params.like;
-//     const filter = {id:req.params.commentId};
-//     if(type=="likeInc")
-//     {
-//         const updateDoc = {
-//             $inc:{
-//                 'likes':1
-//             },
-//         }
-//         const comment = await Comments.updateOne(filter,updateDoc);
-//         res.send({likes:comment.likes});
-//     }
-//     else{
-//         const updateDoc = {
-//             $inc:{
-//                 'likes':-1
-//             },
-//         }
-//         const comment = await Comments.updateOne(filter,updateDoc);
-//         res.send({likes:comment.likes});
-//     }
-// });
+
 
 
 

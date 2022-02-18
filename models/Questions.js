@@ -18,6 +18,12 @@ const QuestionSchema = new mongoose.Schema({
         type:Date,
         default:Date.now
     },
+    likedby:[{
+        type:mongoose.Schema.Types.ObjectId
+    }],
+    dislikedby:[{
+        type:mongoose.Schema.Types.ObjectId
+    }]
 
 });
 

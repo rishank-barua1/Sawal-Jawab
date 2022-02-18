@@ -9,6 +9,7 @@ const TeacherSchema = new mongoose.Schema({
     },
     education:String,
     interest:[String],
+    
 });
 
 module.exports = mongoose.model('Teacher',TeacherSchema,'Teacher');

@@ -6,11 +6,26 @@
       <p class="card-text"><%=question.text%></p>
       <p class="card-text"><span style="font-weight: bold;">Author: </span><%=question.author.name%></p>
       <p class="card-text"><span style="font-weight: bold;">Submission Time: </span><%=date%></p>
-      <form method="POST" action="/student/questions/rate/<%=question.id%>">
-        <label for="Rating">Rate the question(out of 10):</label>
-        <input id="rating" name="rating" required="required" type="number" value="<%= typeof rating!='undefined'?rating:''%>"/>
-        <button type="submit" class="btn btn-danger btn-sm">Rate</button>
-      </form>
+      <div class="like-dislike">
+        <%if(question.likedby.includes(user.id)){%>
+          <button id="like-button" class="btn" onclick="handleQuestionLike('<%=question.id%>')"  data-state="liked" style="color:black; background-color: blue;">
+            <i class="fas fa-thumbs-up"></i> Like <span id="like-count"><%=question.likedby.length%></span>
+          </button>
+        <%}else{%>
+          <button id="like-button" class="btn" onclick="handleQuestionLike('<%=question.id%>')"  data-state="unliked" style="color:black; background-color: darkorange;">
+            <i class="fas fa-thumbs-up"></i> Like <span id="like-count"><%=question.likedby.length%></span>
+          </button>
+          <%}%>
+        <%if(question.dislikedby.includes(user.id)){%>
+          <button id="dislike-button" class="btn" onclick="handleQuestionDislike('<%=question.id%>')" data-state="clicked" style="color:black; background-color: blue;">
+            <i class="fas fa-thumbs-down"></i> Dislike <span id="dislike-count"><%=question.dislikedby.length%></span>
+          </button>
+        <%}else{%>
+          <button id="dislike-button" class="btn" onclick="handleQuestionDislike('<%=question.id%>')" data-state="unclicked" style="color:black; background-color: darkorange;">
+            <i class="fas fa-thumbs-down"></i> Dislike <span id="dislike-count"><%=question.dislikedby.length%></span>
+        <%}%>
+        
+      </div>
     </div>
 </div> 
 <br/>
@@ -26,5 +41,7 @@
       </div>
     </div>
   </div>
+
+  <script src="/js/question.js"></script>
 
 

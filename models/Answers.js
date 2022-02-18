@@ -20,6 +20,12 @@ const AnswerSchema = mongoose.Schema({
         type:Date,
         default:Date.now
     },
+    likedby:[{
+        type:mongoose.Schema.Types.ObjectId
+    }],
+    dislikedby:[{
+        type:mongoose.Schema.Types.ObjectId
+    }]
 });
 
 module.exports = mongoose.model('Answers',AnswerSchema,"Answers");
