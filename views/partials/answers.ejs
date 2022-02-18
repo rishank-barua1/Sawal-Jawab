@@ -39,6 +39,8 @@
                 
               <p class="card-text"><%=answer.text%></p>
               <h6 class="card-text"><%=answer.created.toLocaleString()%></h6>
+
+              <%if(user.role=='student'){%>
               <div class="like-dislike">
                 <%if(answer.likedby.includes(user.id)){%>
                   <button id="like-ans" class="btn" onclick="handleAnswerLike('<%=answer.id%>')"  data-state="liked" style="color:black; background-color: blue;">
@@ -56,7 +58,7 @@
                 <%}else{%>
                   <button id="dislike-ans" class="btn" onclick="handleAnswerDislike('<%=answer.id%>')" data-state="unclicked" style="color:black; background-color: darkorange;">
                     <i class="fas fa-thumbs-down"></i> Dislike <span id="count-dis"><%=answer.dislikedby.length%></span>
-                <%}%>
+                <%}}%>
                 
               </div>
             </div>
